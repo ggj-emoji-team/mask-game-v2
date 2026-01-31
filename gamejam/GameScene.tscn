@@ -79,6 +79,14 @@ offset_bottom = -1.0
 grow_horizontal = 2
 text = "Press SPACE"
 
+[node name="ScoreLabel" type="Label" parent="UI/HUD" unique_id=1301798378]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 21.0
+offset_right = 420.0
+offset_bottom = 44.0
+text = "score: 0"
+
 [node name="StartPanel" type="Control" parent="UI" unique_id=1521892996]
 visible = false
 layout_mode = 3
@@ -95,7 +103,6 @@ offset_bottom = 8.0
 text = "Start"
 
 [node name="ResultPanel" type="Control" parent="UI" unique_id=1748838378]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,17 +110,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Result" type="Label" parent="UI/ResultPanel" unique_id=482584949]
+[node name="ResultLabel" type="Label" parent="UI/ResultPanel" unique_id=482584949]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 185.0
+offset_top = 21.0
+offset_right = 261.0
+offset_bottom = 44.0
+text = "YOU WIN!"
+
+[node name="RestartButton" type="Button" parent="UI/ResultPanel" unique_id=997453625]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 47.0
+offset_right = 270.0
+offset_bottom = 78.0
+text = "Restart"
 
 [node name="Systems" type="Node" parent="." unique_id=1002703645]
 
 [node name="BubbleSystem" type="Node" parent="Systems" unique_id=693326903 node_paths=PackedStringArray("audio_player")]
 script = ExtResource("1_eqhe0")
-bubble_lifetime = null
-max_on_screen = null
 bubble_scene = ExtResource("2_k77ap")
 audio_player = NodePath("../../Audio")
 

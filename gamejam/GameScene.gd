@@ -18,6 +18,13 @@ enum AttackType {
 @onready var accuracy_timer: Timer = $AccuracyTimer
 @onready var attack_emoji_label: Label = $UI/HUD/AttackEmojiLabel
 @onready var attack_emoji_timer: Timer = $AttackEmojiTimer
+@onready var score_label: Label = $UI/HUD/ScoreLabel
+@onready var result_panel: Control = $UI/ResultPanel
+@onready var result_label: Label = $UI/ResultPanel/ResultLabel
+@onready var restart_button: Button = $UI/ResultPanel/RestartButton
+
+const WIN_SCORE := 600
+
 
 # 你的 beatmap（30秒）
 var beatMap_30s: Array[float] = [
@@ -59,6 +66,11 @@ func _ready() -> void:
 	
 	attack_emoji_timer.timeout.connect(_on_attack_emoji_timeout)
 	attack_emoji_label.hide()
+
+	result_panel.hide()
+	restart_button.pressed.connect(_on_restart_pressed)
+
+	score_label.text = "score: %d" % score
 
 
 var is_playing: bool = false
@@ -106,6 +118,9 @@ func _on_start_pressed() -> void:
 	
 	hit_idx = 0
 	score = 0
+	score_label.text = "score: %d" % score
+	result_panel.hide()
+
 
 
 func _on_missed_changed(v: int) -> void:
@@ -199,14 +214,28 @@ func _on_hit_pressed(attack: AttackType) -> void:
 
 
 func _on_success_hit(add: int) -> void:
-	# 命中才消一个气泡（FIFO）
-	var removed := bubble_system.consume_oldest_bubble()
+	var removed: bool = bubble_system.consume_oldest_bubble()
 
-	# 可选：如果没气泡，就不加分（看你们设计）
 	if removed:
 		score += add
-		# 如果你有 ScoreLabel，就更新它
-		# score_label.text = "score: %d" % score
+		score_label.text = "score: %d" % score
+
+		if score >= WIN_SCORE:
+			_win()
+
+func _win() -> void:
+	is_playing = false
+	audio.stop()
+
+	# 可选：把判定文字清掉
+	accuracy_label.text = ""
+
+	result_label.text = "YOU WIN! (%d/%d)" % [score, WIN_SCORE]
+	result_panel.show()
+
+func _on_restart_pressed() -> void:
+	_on_start_pressed()
+
 
 
 func _show_judgement(text: String) -> void:

@@ -8,6 +8,8 @@ signal on_hit(accuracy: String, song_time: float) #个脚本挂在主游戏场�
 @onready var hud: Control = $UI/HUD
 @onready var start_button: Button = $UI/StartPanel/StartButton
 @onready var audio: AudioStreamPlayer = $Audio
+@onready var accuracy_label: Label = $UI/HUD/AccuracyLabel
+@onready var accuracy_timer: Timer = $AccuracyTimer
 
 # 你的 beatmap（30秒）
 var beatMap_30s: Array[float] = [
@@ -43,8 +45,22 @@ func _ready() -> void:
 	on_hit.connect(func(acc: String, t: float, i: int) -> void:
 		print("[OnHit] acc=", acc, " t=", "%.2f" % t, " idx=", i)
 	)
+	
+	accuracy_timer.timeout.connect(_on_accuracy_timeout)
+	accuracy_label.text = ""
 
 var is_playing: bool = false
+
+
+func _show_accuracy(text: String) -> void:
+	accuracy_label.text = text
+	accuracy_timer.stop()
+	accuracy_timer.start()
+
+func _on_accuracy_timeout() -> void:
+	accuracy_label.text = ""
+
+
 
 func _on_start_pressed() -> void:
 	start_panel.hide()
@@ -132,8 +148,7 @@ func _on_success_hit(add: int) -> void:
 
 
 func _show_judgement(text: String) -> void:
-	print(text)
-
+	_show_accuracy(text)
 
 
 	

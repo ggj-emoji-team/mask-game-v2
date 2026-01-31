@@ -1,0 +1,9 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1769870897
+Bubble.gd::GDScript::187603394898664633::1769869754::0::1::::Bubble<>PanelContainer<><>0<>0<><>::
+Bubble.tscn::PackedScene::4014786075368472404::1769869754::0::1::::<><><>0<>0<><>::uid://cw42hnbmgif6::::res://Bubble.gd
+BubbleSystem.gd::GDScript::478927664489280403::1769869754::0::1::::BubbleSystem<>Node<><>0<>0<><>::
+Cipher.mp3::AudioStreamMP3::1100987159427449898::1769869754::1769869923::1::::<><><>0<>0<>68613cb0e65dcd78f80ee2553692252b<>res://.godot/imported/Cipher.mp3-f726b78bb06c3c5b15aaa105a8ec0743.mp3str::
+GameScene.gd::GDScript::3992270464774524651::1769869754::0::1::::<>Node2D<><>0<>0<><>::
+GameScene.tscn::PackedScene::1816720766275832738::1769869754::0::1::::<><><>0<>0<><>::uid://g284sf5he71p::::res://BubbleSystem.gd<>uid://bw45d1vvhtx2r::::res://GameScene.gd<>uid://bxg1670pdlai3::::res://Bubble.tscn<>uid://pxldk5n7j3gg::::res://Cipher.mp3
+icon.svg::CompressedTexture2D::3815449111528739071::1769869754::1769869923::1::::<><><>0<>0<>b116697479c405a3b06368c0f8a1287a<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::

@@ -1,5 +1,7 @@
 extends Node2D
 
+signal on_hit(accuracy: String, song_time: float) #个脚本挂在主游戏场景上，负责整体流程和判定
+
 @onready var bubble_system: BubbleSystem = $Systems/BubbleSystem
 @onready var missed_label: Label = $UI/HUD/MissedLabel
 @onready var start_panel: Control = $UI/StartPanel
@@ -36,6 +38,11 @@ func _ready() -> void:
 
 	bubble_system.missed_changed.connect(_on_missed_changed)
 	_on_missed_changed(0)
+	
+	#用来记录on_hit
+	on_hit.connect(func(acc: String, t: float, i: int) -> void:
+		print("[OnHit] acc=", acc, " t=", "%.2f" % t, " idx=", i)
+	)
 
 var is_playing: bool = false
 
@@ -97,15 +104,19 @@ func _on_hit_pressed() -> void:
 	print("PRESS: idx=", hit_idx, " target=", target, " now=", now, " diff=", diff)
 
 	if diff <= PERFECT_WINDOW:
-		_show_judgement("PERFECT")
-		_on_success_hit(PERFECT_SCORE)
+		_show_judgement("PERFECT")		
+		on_hit.emit("PERFECT", now, hit_idx) # 记录版：监听 on_hit，用来验收 
+		_on_success_hit(PERFECT_SCORE) 	# 成功命中：尝试消一个泡泡 + 加分
 		hit_idx += 1
+		
 	elif diff <= GOOD_WINDOW:
 		_show_judgement("GOOD")
-		_on_success_hit(GOOD_SCORE)
-		hit_idx += 1
+		on_hit.emit("GOOD", now, hit_idx) # 记录版：监听 on_hit，用来验收 （记录这一次是 GOOD）
+		_on_success_hit(GOOD_SCORE) # 消泡泡 + 加较少的分
+		hit_idx += 1 # 推进到下一个节拍
 	else:
 		_show_judgement("MISS")
+		on_hit.emit("MISS", now, hit_idx) # 即使是 MISS，也要记下来
 
 
 

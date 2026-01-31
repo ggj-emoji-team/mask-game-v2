@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://bve3qyetm85sh"]
+
+[ext_resource type="Script" path="res://scripts/GameManager.gd" id="1_eqhe0"]
+[ext_resource type="Texture2D" path="res://assets/fail_panel.png" id="1_k77ap"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_haeiw"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+texture = ExtResource("1_k77ap")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
+[node name="Gamescene" type="Node2D" unique_id=375282301]
+
+[node name="UI(CanvasLayer)" type="CanvasLayer" parent="." unique_id=318498973]
+
+[node name="StartPanel(Control)" type="Control" parent="UI(CanvasLayer)" unique_id=1325240673]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartCenter" type="CenterContainer" parent="UI(CanvasLayer)/StartPanel(Control)" unique_id=206236458]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="UI(CanvasLayer)/StartPanel(Control)/StartCenter" unique_id=344831514]
+layout_mode = 2
+text = "Start"
+
+[node name="HUD(Control)" type="Control" parent="UI(CanvasLayer)" unique_id=1430216467]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopLeftBox" type="VBoxContainer" parent="UI(CanvasLayer)/HUD(Control)" unique_id=215021923]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="UI(CanvasLayer)/HUD(Control)/TopLeftBox" unique_id=440315468]
+layout_mode = 2
+text = "Score :   0"
+
+[node name="AccuracyLabel" type="Label" parent="UI(CanvasLayer)/HUD(Control)/TopLeftBox" unique_id=1647816375]
+layout_mode = 2
+text = "Ready"
+
+[node name="ResultPanel" type="Control" parent="UI(CanvasLayer)" unique_id=356404931]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Overlay" type="ColorRect" parent="UI(CanvasLayer)/ResultPanel" unique_id=676438911]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="ResultCenter" type="CenterContainer" parent="UI(CanvasLayer)/ResultPanel" unique_id=1527890123]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResultPanelBg" type="PanelContainer" parent="UI(CanvasLayer)/ResultPanel/ResultCenter" unique_id=1982509666]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_haeiw")
+
+[node name="ResultBox" type="VBoxContainer" parent="UI(CanvasLayer)/ResultPanel/ResultCenter/ResultPanelBg" unique_id=1048088617]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+
+[node name="ResultLabel" type="Label" parent="UI(CanvasLayer)/ResultPanel/ResultCenter/ResultPanelBg/ResultBox" unique_id=1167136071]
+layout_mode = 2
+text = "Result"
+
+[node name="RestartButton" type="Button" parent="UI(CanvasLayer)/ResultPanel/ResultCenter/ResultPanelBg/ResultBox" unique_id=1734673214]
+custom_minimum_size = Vector2(220, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 26
+text = "Restart"
+
+[node name="GameManager" type="Node" parent="." unique_id=533204561 node_paths=PackedStringArray("start_panel", "hud", "result_panel", "result_label")]
+script = ExtResource("1_eqhe0")
+start_panel = NodePath("../UI(CanvasLayer)/StartPanel(Control)")
+hud = NodePath("../UI(CanvasLayer)/HUD(Control)")
+result_panel = NodePath("../UI(CanvasLayer)/ResultPanel")
+result_label = NodePath("../UI(CanvasLayer)/ResultPanel/ResultCenter/ResultPanelBg/ResultBox/ResultLabel")
+
+[connection signal="pressed" from="UI(CanvasLayer)/StartPanel(Control)/StartCenter/StartButton" to="GameManager" method="start_game"]
+[connection signal="pressed" from="UI(CanvasLayer)/ResultPanel/ResultCenter/ResultPanelBg/ResultBox/RestartButton" to="GameManager" method="restart_game"]

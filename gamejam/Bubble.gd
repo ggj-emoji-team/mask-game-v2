@@ -1,4 +1,5 @@
 extends PanelContainer
+
 class_name Bubble
 
 var born_time: float = 0.0

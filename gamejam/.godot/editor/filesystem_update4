@@ -1,1 +1,4 @@
 res://GameScene.gd
+res://GameScene.tscn
+res://Bubble.gd
+res://BubbleSystem.gd

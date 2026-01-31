@@ -38,12 +38,20 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -544.0
+offset_left = -535.0
 offset_top = 51.0
-offset_right = -504.0
+offset_right = -495.0
 offset_bottom = 74.0
 grow_horizontal = 2
 text = "\"\""
+
+[node name="AttackEmojiLabel" type="Label" parent="UI/HUD" unique_id=259062864]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 101.0
+offset_right = 448.0
+offset_bottom = 124.0
+text = "😂"
 
 [node name="HitLine" type="ColorRect" parent="UI/HUD" unique_id=578514109]
 layout_mode = 1
@@ -53,9 +61,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -412.0
-offset_top = -539.0
+offset_top = -536.0
 offset_right = -262.0
-offset_bottom = -533.0
+offset_bottom = -530.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -86,10 +94,26 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Start"
 
+[node name="ResultPanel" type="Control" parent="UI" unique_id=1748838378]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Result" type="Label" parent="UI/ResultPanel" unique_id=482584949]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
 [node name="Systems" type="Node" parent="." unique_id=1002703645]
 
 [node name="BubbleSystem" type="Node" parent="Systems" unique_id=693326903 node_paths=PackedStringArray("audio_player")]
 script = ExtResource("1_eqhe0")
+bubble_lifetime = null
+max_on_screen = null
 bubble_scene = ExtResource("2_k77ap")
 audio_player = NodePath("../../Audio")
 
@@ -98,4 +122,8 @@ stream = ExtResource("4_b5kf5")
 
 [node name="AccuracyTimer" type="Timer" parent="." unique_id=1320245678]
 wait_time = 0.3
+one_shot = true
+
+[node name="AttackEmojiTimer" type="Timer" parent="." unique_id=1513285896]
+wait_time = 0.2
 one_shot = true

@@ -2,6 +2,12 @@ extends Node2D
 
 signal on_hit(accuracy: String, song_time: float) #个脚本挂在主游戏场景上，负责整体流程和判定
 
+enum AttackType {
+	LAUGH,   # 😂
+	ANGRY   # 😡
+}
+
+
 @onready var bubble_system: BubbleSystem = $Systems/BubbleSystem
 @onready var missed_label: Label = $UI/HUD/MissedLabel
 @onready var start_panel: Control = $UI/StartPanel
@@ -10,6 +16,8 @@ signal on_hit(accuracy: String, song_time: float) #个脚本挂在主游戏场�
 @onready var audio: AudioStreamPlayer = $Audio
 @onready var accuracy_label: Label = $UI/HUD/AccuracyLabel
 @onready var accuracy_timer: Timer = $AccuracyTimer
+@onready var attack_emoji_label: Label = $UI/HUD/AttackEmojiLabel
+@onready var attack_emoji_timer: Timer = $AttackEmojiTimer
 
 # 你的 beatmap（30秒）
 var beatMap_30s: Array[float] = [
@@ -23,8 +31,8 @@ var beatMap_30s: Array[float] = [
 var hit_idx: int = 0
 
 # 判定窗口（秒）：你可以之后调参
-const PERFECT_WINDOW := 0.15
-const GOOD_WINDOW := 0.30
+const PERFECT_WINDOW := 0.5
+const GOOD_WINDOW := 1.0
 
 # 分数（可选）
 var score: int = 0
@@ -48,8 +56,28 @@ func _ready() -> void:
 	
 	accuracy_timer.timeout.connect(_on_accuracy_timeout)
 	accuracy_label.text = ""
+	
+	attack_emoji_timer.timeout.connect(_on_attack_emoji_timeout)
+	attack_emoji_label.hide()
+
 
 var is_playing: bool = false
+
+func _play_attack_emoji(attack: AttackType) -> void:
+	match attack:
+		AttackType.LAUGH:
+			attack_emoji_label.text = "😂"
+		AttackType.ANGRY:
+			attack_emoji_label.text = "😡"
+
+	attack_emoji_label.show()
+	attack_emoji_timer.stop()
+	attack_emoji_timer.start()
+
+
+
+func _on_attack_emoji_timeout() -> void:
+	attack_emoji_label.hide()
 
 
 func _show_accuracy(text: String) -> void:
@@ -87,15 +115,28 @@ func _on_missed_changed(v: int) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_playing:
 		return
-
 	if event is InputEventKey and event.echo:
 		return
 
 	if event.is_action_pressed("hit"):
-		_on_hit_pressed()
+		var attack: AttackType = AttackType.LAUGH
+		if event is InputEventKey and event.alt_pressed:
+			attack = AttackType.ANGRY
+		_on_hit_pressed(attack)
+
+# func _on_attack(attack: AttackType) -> void:
+# 	_play_attack_emoji(attack)
+# 	bubble_system.consume_oldest_bubble()
 
 
-func _on_hit_pressed() -> void:
+func _on_hit_pressed(attack: AttackType) -> void:
+	_play_attack_emoji(attack)
+	# bubble_system.consume_oldest_bubble()
+
+	# 下面原本的 Perfect/Good/Miss 判定你可以先留着或暂时 return
+	# 如果你想暂时不判定，就直接 return：
+	# return
+	
 	if hit_idx >= beatMap_30s.size():
 		_show_judgement("MISS")
 		return
@@ -120,16 +161,37 @@ func _on_hit_pressed() -> void:
 	print("PRESS: idx=", hit_idx, " target=", target, " now=", now, " diff=", diff)
 
 	if diff <= PERFECT_WINDOW:
-		_show_judgement("PERFECT")		
-		on_hit.emit("PERFECT", now, hit_idx) # 记录版：监听 on_hit，用来验收 
-		_on_success_hit(PERFECT_SCORE) 	# 成功命中：尝试消一个泡泡 + 加分
+			# ✅ 先检查匹配
+		var target_emotion: String = bubble_system.peek_oldest_emotion()
+		var attack_emotion: String = _attack_to_emotion(attack)
+
+	# 没气泡：你可以当作 WRONG 或者直接不处理（这里我当作 WRONG 更直观）
+		if target_emotion == "":
+			_show_judgement("WRONG")
+			return
+
+		if target_emotion != attack_emotion:
+			_show_judgement("WRONG")
+			return
+
+		# ✅ 匹配成功才算 PERFECT
+		_show_judgement("PERFECT")
+		_play_attack_emoji(attack)
+		_on_success_hit(PERFECT_SCORE)
 		hit_idx += 1
 		
 	elif diff <= GOOD_WINDOW:
+		var target_emotion: String = bubble_system.peek_oldest_emotion()
+		var attack_emotion: String = _attack_to_emotion(attack)
+
+		if target_emotion == "" or target_emotion != attack_emotion:
+			_show_judgement("WRONG")
+			return
+
 		_show_judgement("GOOD")
-		on_hit.emit("GOOD", now, hit_idx) # 记录版：监听 on_hit，用来验收 （记录这一次是 GOOD）
-		_on_success_hit(GOOD_SCORE) # 消泡泡 + 加较少的分
-		hit_idx += 1 # 推进到下一个节拍
+		_play_attack_emoji(attack)
+		_on_success_hit(GOOD_SCORE)
+		hit_idx += 1
 	else:
 		_show_judgement("MISS")
 		on_hit.emit("MISS", now, hit_idx) # 即使是 MISS，也要记下来
@@ -150,5 +212,12 @@ func _on_success_hit(add: int) -> void:
 func _show_judgement(text: String) -> void:
 	_show_accuracy(text)
 
+func _attack_to_emotion(attack: AttackType) -> String:
+	match attack:
+		AttackType.LAUGH:
+			return "LAUGH"
+		AttackType.ANGRY:
+			return "ANGRY"
+	return ""
 
 	

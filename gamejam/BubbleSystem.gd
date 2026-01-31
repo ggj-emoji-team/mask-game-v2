@@ -1,6 +1,41 @@
 extends Node
 class_name BubbleSystem
 
+const EMOJI_CORPUS := {
+	"LAUGH": {
+		"emoji": "😂",
+		"lines": [
+			"lol",
+			"haha",
+			"this is fine",
+			"nice one",
+			"keep going 😂",
+			"you’re funny",
+			"that was cute",
+			"again?",
+			"ok ok",
+			"lmao"
+		]
+	},
+	"ANGRY": {
+		"emoji": "😡",
+		"lines": [
+			"wrong",
+			"no",
+			"focus",
+			"again",
+			"too slow",
+			"this is bad",
+			"try harder",
+			"you failed",
+			"not good enough",
+			"stop messing up"
+		]
+	}
+}
+
+
+
 signal missed_changed(value: int)
 
 @export var bubble_lifetime: float = 3.0
@@ -61,9 +96,22 @@ func _spawn_bubble(now: float) -> void:
 		return
 
 	var b := bubble_scene.instantiate() as Bubble
-	b.setup("...", now, bubble_lifetime)
+
+	# --- 随机选情绪 ---
+	var emotion_keys := EMOJI_CORPUS.keys()
+	var emotion: String = emotion_keys.pick_random()
+	var data: Dictionary = EMOJI_CORPUS[emotion]
+
+	# --- 随机选一句话 ---
+	var line: String = data["lines"].pick_random()
+	var emoji: String = data["emoji"]
+	# 最终显示文本
+	var text := "%s %s" % [emoji, line]
+
+	b.setup(text, now, bubble_lifetime, emotion)  # ✅ 多传一个 emotion
 	bubble_queue_ui.add_child(b)
 	_queue.append(b)
+
 
 func _check_expired() -> void:
 	if _queue.is_empty():
@@ -98,3 +146,11 @@ func consume_oldest_bubble() -> bool:
 	if is_instance_valid(head):
 		head.queue_free()
 	return true
+	
+func peek_oldest_emotion() -> String:
+	if _queue.is_empty():
+		return ""
+	var head: Bubble = _queue[0]
+	if not is_instance_valid(head):
+		return ""
+	return head.emotion

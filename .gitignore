@@ -1,3 +1,15 @@
-
-# Godot local
+# 忽略 Godot 4 的缓存文件夹（无论它在哪一层）
 .godot/
+gamejam/.godot/
+
+# 忽略临时文件
+*.tmp
+
+# 忽略导出配置（选填，看你需不需要同步导出设置）
+export_presets.cfg
+
+# 忽略 Visual Studio 或 VSCode 的工程配置（如果你用的话）
+.vscode/
+*.sln
+*.csproj
+.vs/

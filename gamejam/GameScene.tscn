@@ -2,23 +2,12 @@
 
 [ext_resource type="Script" uid="uid://g284sf5he71p" path="res://BubbleSystem.gd" id="1_eqhe0"]
 [ext_resource type="Script" uid="uid://bw45d1vvhtx2r" path="res://GameScene.gd" id="1_haeiw"]
-[ext_resource type="Texture2D" uid="uid://bhdsi02xnkg37" path="res://result_bg.png" id="2_hvuor"]
+[ext_resource type="Texture2D" uid="uid://bda8p3pb8x3sa" path="res://StartPanelBackground.png" id="2_5cvvu"]
 [ext_resource type="PackedScene" uid="uid://bxg1670pdlai3" path="res://Bubble.tscn" id="2_k77ap"]
+[ext_resource type="AudioStream" uid="uid://b1trxhthcoj78" path="res://addons/whatsapp-message-sound-effect-1-386093.mp3" id="4_1kil2"]
 [ext_resource type="AudioStream" uid="uid://pxldk5n7j3gg" path="res://Cipher.mp3" id="4_b5kf5"]
-
-[sub_resource type="Theme" id="Theme_b5kf5"]
-Button/colors/font_color = Color(0.8745098, 0.043137256, 0.8745098, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b5kf5"]
-bg_color = Color(0.0627451, 0.07058824, 0.07058824, 0.8)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
-shadow_color = Color(0, 0, 0, 0.023529412)
-shadow_size = 16
-shadow_offset = Vector2(0, 6)
+[ext_resource type="AudioStream" uid="uid://t5tqguayt4fc" path="res://addons/kenney digital audio/laser_1.ogg" id="5_i2arf"]
+[ext_resource type="AudioStream" uid="uid://c5svudthm8xox" path="res://addons/kenney digital audio/pep_sound_1.ogg" id="6_1kil2"]
 
 [node name="GameScene" type="Node2D" unique_id=1450214005]
 script = ExtResource("1_haeiw")
@@ -102,47 +91,60 @@ offset_right = 420.0
 offset_bottom = 44.0
 text = "score: 0"
 
+[node name="ModeLabel" type="Label" parent="UI/HUD" unique_id=1781255357]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 2.0
+offset_right = 95.0
+offset_bottom = 25.0
+
+[node name="WrongLabel" type="Label" parent="UI/HUD" unique_id=243162630]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 19.0
+offset_right = 172.0
+offset_bottom = 42.0
+text = "wrong: 0"
+
 [node name="StartPanel" type="Control" parent="UI" unique_id=1521892996]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/StartPanel" unique_id=1342354758]
+layout_mode = 0
+offset_right = 1145.0
+offset_bottom = 645.0
+texture = ExtResource("2_5cvvu")
+expand_mode = 1
 
 [node name="StartButton" type="Button" parent="UI/StartPanel" unique_id=242621569]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 256.0
+offset_top = 398.0
+offset_right = 526.0
+offset_bottom = 490.0
 text = "Start"
+
+[node name="QuitButton" type="Button" parent="UI/StartPanel" unique_id=1799556442]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 404.0
+offset_right = 887.0
+offset_bottom = 485.0
+text = "Quit"
 
 [node name="ResultPanel" type="Control" parent="UI" unique_id=1748838378]
 visible = false
-z_index = 30
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource("Theme_b5kf5")
-
-[node name="BG" type="TextureRect" parent="UI/ResultPanel" unique_id=1731416892]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -188.0
-offset_right = 192.0
-offset_bottom = 188.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_hvuor")
-stretch_mode = 5
 
 [node name="ResultLabel" type="Label" parent="UI/ResultPanel" unique_id=482584949]
 layout_mode = 0
@@ -152,66 +154,12 @@ offset_right = 261.0
 offset_bottom = 44.0
 text = "YOU WIN!"
 
-[node name="Dim" type="ColorRect" parent="UI/ResultPanel" unique_id=945021728]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.39215687)
-
-[node name="Center" type="CenterContainer" parent="UI/ResultPanel" unique_id=177939354]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -3.0
-offset_top = -1.0
-offset_right = -3.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Card" type="PanelContainer" parent="UI/ResultPanel/Center" unique_id=347555472]
-custom_minimum_size = Vector2(400, 220)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_b5kf5")
-
-[node name="Padding" type="MarginContainer" parent="UI/ResultPanel/Center/Card" unique_id=150017493]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 18
-
-[node name="VBox" type="VBoxContainer" parent="UI/ResultPanel/Center/Card/Padding" unique_id=1021070358]
-layout_mode = 2
-size_flags_stretch_ratio = 2.0
-alignment = 1
-
-[node name="TitleLabel" type="Label" parent="UI/ResultPanel/Center/Card/Padding/VBox" unique_id=616727336]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.3019608, 0.3019608, 1)
-theme_override_font_sizes/font_size = 72
-text = "FAIL\\nTHE BOSS LOST IT"
-horizontal_alignment = 1
-
-[node name="Buttons" type="HBoxContainer" parent="UI/ResultPanel/Center/Card/Padding/VBox" unique_id=1404117780]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="BackButton" type="Button" parent="UI/ResultPanel/Center/Card/Padding/VBox/Buttons" unique_id=1604540484]
-custom_minimum_size = Vector2(160, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Back"
-
-[node name="RestartButton" type="Button" parent="UI/ResultPanel/Center/Card/Padding/VBox/Buttons" unique_id=997453625]
-custom_minimum_size = Vector2(160, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
+[node name="RestartButton" type="Button" parent="UI/ResultPanel" unique_id=997453625]
+layout_mode = 0
+offset_left = 358.0
+offset_top = 48.0
+offset_right = 423.0
+offset_bottom = 79.0
 text = "Restart"
 
 [node name="Systems" type="Node" parent="." unique_id=1002703645]
@@ -220,6 +168,10 @@ text = "Restart"
 script = ExtResource("1_eqhe0")
 bubble_scene = ExtResource("2_k77ap")
 audio_player = NodePath("../../Audio")
+
+[node name="BubblePopSfx" type="AudioStreamPlayer" parent="Systems/BubbleSystem" unique_id=439179942]
+stream = ExtResource("4_1kil2")
+volume_db = -12.5
 
 [node name="Audio" type="AudioStreamPlayer" parent="." unique_id=2026782119]
 stream = ExtResource("4_b5kf5")
@@ -231,3 +183,9 @@ one_shot = true
 [node name="AttackEmojiTimer" type="Timer" parent="." unique_id=1513285896]
 wait_time = 0.2
 one_shot = true
+
+[node name="HitSfx" type="AudioStreamPlayer" parent="." unique_id=917420175]
+stream = ExtResource("5_i2arf")
+
+[node name="WrongSfx" type="AudioStreamPlayer" parent="." unique_id=959775151]
+stream = ExtResource("6_1kil2")

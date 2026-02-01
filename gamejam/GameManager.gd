@@ -1,8 +1,6 @@
 # res://Scripts/GameManager.gd
 extends Node
 
-signal game_over(reason: String)
-
 # --- 配置 (Config) ---
 # 允许堆积的最大数量 (根据设计调整)
 var max_overflow_count: int = 8
@@ -62,7 +60,6 @@ func get_compressed_lifetime(base_lifetime: float) -> float:
 
 func trigger_game_over():
 	print("!!! GAME OVER !!!")
-	emit_signal("game_over", "OVERFLOW")
-
+	# 这里后续接 UI
 	
 	

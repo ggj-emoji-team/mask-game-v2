@@ -7,7 +7,6 @@ signal missed_changed(value: int)
 @export var max_on_screen: int = 999
 @export var bubble_scene: PackedScene
 @export var audio_player: AudioStreamPlayer
-@onready var pop_sfx: AudioStreamPlayer = $BubblePopSfx
 
 # 两种情绪语料库
 const EMOJI_CORPUS := {
@@ -128,11 +127,7 @@ func _spawn_bubble(now: float) -> void:
 
 	bubble_queue_ui.add_child(b)
 	_queue.append(b)
-	
-	# ✅ 新增：播放气泡弹出音效
-	if pop_sfx != null:
-		pop_sfx.pitch_scale = randf_range(0.95, 1.05) # 微随机，避免机械感
-		pop_sfx.play()
+
 
 func _check_expired() -> void:
 	if _queue.is_empty():

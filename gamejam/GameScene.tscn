@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://g284sf5he71p" path="res://BubbleSystem.gd" id="1_eqhe0"]
 [ext_resource type="Script" uid="uid://bw45d1vvhtx2r" path="res://GameScene.gd" id="1_haeiw"]
+[ext_resource type="Texture2D" uid="uid://bda8p3pb8x3sa" path="res://StartPanelBackground.png" id="2_5cvvu"]
 [ext_resource type="PackedScene" uid="uid://bxg1670pdlai3" path="res://Bubble.tscn" id="2_k77ap"]
 [ext_resource type="AudioStream" uid="uid://b1trxhthcoj78" path="res://addons/whatsapp-message-sound-effect-1-386093.mp3" id="4_1kil2"]
 [ext_resource type="AudioStream" uid="uid://pxldk5n7j3gg" path="res://Cipher.mp3" id="4_b5kf5"]
@@ -106,7 +107,6 @@ offset_bottom = 42.0
 text = "wrong: 0"
 
 [node name="StartPanel" type="Control" parent="UI" unique_id=1521892996]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,11 +114,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TextureRect" type="TextureRect" parent="UI/StartPanel" unique_id=1342354758]
+layout_mode = 0
+offset_right = 1145.0
+offset_bottom = 645.0
+texture = ExtResource("2_5cvvu")
+expand_mode = 1
+
 [node name="StartButton" type="Button" parent="UI/StartPanel" unique_id=242621569]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 256.0
+offset_top = 398.0
+offset_right = 526.0
+offset_bottom = 490.0
 text = "Start"
+
+[node name="QuitButton" type="Button" parent="UI/StartPanel" unique_id=1799556442]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 404.0
+offset_right = 887.0
+offset_bottom = 485.0
+text = "Quit"
 
 [node name="ResultPanel" type="Control" parent="UI" unique_id=1748838378]
 visible = false

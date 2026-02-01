@@ -27,6 +27,7 @@ enum AttackType {
 @onready var wrong_label: Label = $UI/HUD/WrongLabel
 @onready var hit_sfx: AudioStreamPlayer = $HitSfx
 @onready var wrong_sfx: AudioStreamPlayer = $WrongSfx
+@onready var quit_button: Button = $UI/StartPanel/QuitButton
 
 
 
@@ -95,6 +96,7 @@ func _ready() -> void:
 	
 	_update_wrong_ui()
 
+	quit_button.pressed.connect(func(): get_tree().quit())
 
 
 

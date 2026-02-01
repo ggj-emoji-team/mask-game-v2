@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8b5ql22pjg1l"
-path="res://.godot/imported/StartPanelBackground.png-54f484b21d0c6ad03c0df87125f61caa.ctex"
+uid="uid://dxlo0sb1fup22"
+path="res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StartPanelBackground.png"
-dest_files=["res://.godot/imported/StartPanelBackground.png-54f484b21d0c6ad03c0df87125f61caa.ctex"]
+source_file="res://icon.png"
+dest_files=["res://.godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex"]
 
 [params]
 

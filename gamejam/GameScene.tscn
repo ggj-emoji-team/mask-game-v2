@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://g284sf5he71p" path="res://BubbleSystem.gd" id="1_eqhe0"]
 [ext_resource type="Script" uid="uid://bw45d1vvhtx2r" path="res://GameScene.gd" id="1_haeiw"]
-[ext_resource type="Texture2D" uid="uid://c8b5ql22pjg1l" path="res://StartPanelBackground.png" id="2_hvuor"]
 [ext_resource type="PackedScene" uid="uid://bxg1670pdlai3" path="res://Bubble.tscn" id="2_k77ap"]
+[ext_resource type="AudioStream" uid="uid://b1trxhthcoj78" path="res://addons/whatsapp-message-sound-effect-1-386093.mp3" id="4_1kil2"]
 [ext_resource type="AudioStream" uid="uid://pxldk5n7j3gg" path="res://Cipher.mp3" id="4_b5kf5"]
+[ext_resource type="AudioStream" uid="uid://t5tqguayt4fc" path="res://addons/kenney digital audio/laser_1.ogg" id="5_i2arf"]
+[ext_resource type="AudioStream" uid="uid://c5svudthm8xox" path="res://addons/kenney digital audio/pep_sound_1.ogg" id="6_1kil2"]
 
 [node name="GameScene" type="Node2D" unique_id=1450214005]
 script = ExtResource("1_haeiw")
@@ -12,7 +14,6 @@ script = ExtResource("1_haeiw")
 [node name="UI" type="CanvasLayer" parent="." unique_id=228659406]
 
 [node name="HUD" type="Control" parent="UI" unique_id=1213537299]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,7 +90,23 @@ offset_right = 420.0
 offset_bottom = 44.0
 text = "score: 0"
 
+[node name="ModeLabel" type="Label" parent="UI/HUD" unique_id=1781255357]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 2.0
+offset_right = 95.0
+offset_bottom = 25.0
+
+[node name="WrongLabel" type="Label" parent="UI/HUD" unique_id=243162630]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 19.0
+offset_right = 172.0
+offset_bottom = 42.0
+text = "wrong: 0"
+
 [node name="StartPanel" type="Control" parent="UI" unique_id=1521892996]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -97,48 +114,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BGDim" type="ColorRect" parent="UI/StartPanel" unique_id=1235980746]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BackgroundImage" type="TextureRect" parent="UI/StartPanel" unique_id=1003751116]
-layout_mode = 0
-offset_right = 1148.0
-offset_bottom = 647.0
-texture = ExtResource("2_hvuor")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="UI/StartPanel" unique_id=501271200]
-visible = false
-layout_mode = 0
-offset_left = 303.0
-offset_top = 116.0
-offset_right = 884.0
-offset_bottom = 226.0
-theme_override_font_sizes/font_size = 80
-text = "EMOJI 🤭🤭🤭"
-
 [node name="StartButton" type="Button" parent="UI/StartPanel" unique_id=242621569]
 layout_mode = 0
-offset_left = 283.0
-offset_top = 379.0
-offset_right = 558.0
-offset_bottom = 470.0
+offset_right = 8.0
+offset_bottom = 8.0
 text = "Start"
-
-[node name="QuitButton" type="Button" parent="UI/StartPanel" unique_id=884169155]
-layout_mode = 0
-offset_left = 599.0
-offset_top = 377.0
-offset_right = 892.0
-offset_bottom = 468.0
-text = "Quit
-"
 
 [node name="ResultPanel" type="Control" parent="UI" unique_id=1748838378]
 visible = false
@@ -159,10 +139,10 @@ text = "YOU WIN!"
 
 [node name="RestartButton" type="Button" parent="UI/ResultPanel" unique_id=997453625]
 layout_mode = 0
-offset_left = 205.0
-offset_top = 47.0
-offset_right = 270.0
-offset_bottom = 78.0
+offset_left = 358.0
+offset_top = 48.0
+offset_right = 423.0
+offset_bottom = 79.0
 text = "Restart"
 
 [node name="Systems" type="Node" parent="." unique_id=1002703645]
@@ -171,6 +151,10 @@ text = "Restart"
 script = ExtResource("1_eqhe0")
 bubble_scene = ExtResource("2_k77ap")
 audio_player = NodePath("../../Audio")
+
+[node name="BubblePopSfx" type="AudioStreamPlayer" parent="Systems/BubbleSystem" unique_id=439179942]
+stream = ExtResource("4_1kil2")
+volume_db = -12.5
 
 [node name="Audio" type="AudioStreamPlayer" parent="." unique_id=2026782119]
 stream = ExtResource("4_b5kf5")
@@ -182,3 +166,9 @@ one_shot = true
 [node name="AttackEmojiTimer" type="Timer" parent="." unique_id=1513285896]
 wait_time = 0.2
 one_shot = true
+
+[node name="HitSfx" type="AudioStreamPlayer" parent="." unique_id=917420175]
+stream = ExtResource("5_i2arf")
+
+[node name="WrongSfx" type="AudioStreamPlayer" parent="." unique_id=959775151]
+stream = ExtResource("6_1kil2")

@@ -13,6 +13,7 @@ enum AttackType {
 @onready var start_panel: Control = $UI/StartPanel
 @onready var hud: Control = $UI/HUD
 @onready var start_button: Button = $UI/StartPanel/StartButton
+@onready var quit_button: Button = $UI/StartPanel/QuitButton
 @onready var audio: AudioStreamPlayer = $Audio
 @onready var accuracy_label: Label = $UI/HUD/AccuracyLabel
 @onready var accuracy_timer: Timer = $AccuracyTimer
@@ -71,6 +72,9 @@ func _ready() -> void:
 	restart_button.pressed.connect(_on_restart_pressed)
 
 	score_label.text = "score: %d" % score
+	
+	# 这一行就是退出功能，点击直接关闭游戏
+	quit_button.pressed.connect(func(): get_tree().quit())
 
 
 var is_playing: bool = false
